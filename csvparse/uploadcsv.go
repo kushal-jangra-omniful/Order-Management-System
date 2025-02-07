@@ -1,10 +1,10 @@
-package controllers
+package csvparse
 
 import (
 	"context"
 	"fmt"
-	"log"
-	"oms/utils"
+	// "log"
+	// "oms/utils"
 	"oms/models"
 	"time"
 
@@ -75,17 +75,17 @@ func Csvinit() error {
 
 	// Insert orders into MongoDB
 
-	orderCollection := utils.GetCollection("orders")
-	if orderCollection == nil {
-		log.Fatal("MongoDB collection retrieval failed! Check MongoDB connection.")
-	}
+	// orderCollection := utils.GetCollection("orders")
+	// if orderCollection == nil {
+	// 	log.Fatal("MongoDB collection retrieval failed! Check MongoDB connection.")
+	// }
 	
-	_, err = orderCollection.InsertMany(context.Background(), orders)
-	if err != nil {
-		log.Printf("Error inserting orders into MongoDB: %v\n", err)
-		return err
-	}
+	// _, err = orderCollection.InsertMany(context.Background(), orders)
+	// if err != nil {
+	// 	log.Printf("Error inserting orders into MongoDB: %v\n", err)
+	// 	return err
+	// }
 
-	fmt.Println("Orders successfully inserted into MongoDB.")
+	// fmt.Println("Orders successfully inserted into MongoDB.")
 	return nil
 }

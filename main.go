@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"oms/controllers"
+	// "oms/controllers"
+	// "oms/producer"
+     
 	"oms/routes"
 	"time"
 
@@ -15,7 +17,7 @@ import (
 )
 
 func main() {
-
+   
 	fmt.Println("Hello World!")
 
 	// Initialize the server
@@ -30,8 +32,10 @@ func main() {
 		fmt.Println("Error in connecting to mongo")
 		return
 	}
+	utils.Init()
+	// producer.PublishOrderMessage()
 	utils.InitRedis()
-	controllers.Csvinit()
+	// controllers.Csvinit()
 	routes.RegisterRoutes(server)
 
 	// Start the server

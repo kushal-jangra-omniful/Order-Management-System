@@ -14,6 +14,9 @@ type Order struct {
 	UpdatedAt time.Time `bson:"updated_at"`
 }
 
+type MessageOutput struct {
+	Message string
+}
 type OrderEvent struct {
 	FilePath string `json:"file_path"`
 	UserID   string `json:"user_id"`
