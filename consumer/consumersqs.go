@@ -2,19 +2,23 @@ package consumer
 
 import (
 	"context"
+	// "encoding/json"
 	"fmt"
 	"log"
-    "oms/models"
+	// "net/http"
+	"oms/csvparse"
+	"oms/models"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 )
 
+
+
 const (
 	queueURL = "https://sqs.eu-north-1.amazonaws.com/539247490249/Myqueue.fifo"
 )
-
-
 
 func StartConsumer() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("eu-north-1"))
@@ -27,8 +31,8 @@ func StartConsumer() {
 	for {
 		output, err := sqsClient.ReceiveMessage(context.TODO(), &sqs.ReceiveMessageInput{
 			QueueUrl:            aws.String(queueURL),
-			MaxNumberOfMessages: 10,
-			WaitTimeSeconds:     5,
+			MaxNumberOfMessages: 1,
+			WaitTimeSeconds:     1,
 		})
 		if err != nil {
 			log.Printf("failed to receive messages: %v", err)
@@ -38,6 +42,10 @@ func StartConsumer() {
 		for _, msg := range output.Messages {
 			messageOutput := models.MessageOutput{Message: *msg.Body}
 			fmt.Printf("Received message: %s\n", messageOutput.Message)
+			filePath := messageOutput.Message
+			if err := csvparse.Csvinit(filePath); err != nil {
+				fmt.Println("error in creating order", err)
+			}
 
 			// Delete message after processing
 			_, err = sqsClient.DeleteMessage(context.TODO(), &sqs.DeleteMessageInput{
@@ -49,6 +57,7 @@ func StartConsumer() {
 			} else {
 				fmt.Println("Message deleted successfully")
 			}
+
 		}
 	}
 }

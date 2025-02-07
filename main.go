@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	// "oms/controllers"
-	// "oms/producer"
+	"oms/consumer"
      
 	"oms/routes"
 	"time"
@@ -34,9 +34,11 @@ func main() {
 	}
 	utils.Init()
 	// producer.PublishOrderMessage()
+	go consumer.StartConsumer()
 	utils.InitRedis()
 	// controllers.Csvinit()
 	routes.RegisterRoutes(server)
+	
 
 	// Start the server
 	if err := server.StartServer("MyService"); err != nil {

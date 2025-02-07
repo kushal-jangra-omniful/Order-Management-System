@@ -1,4 +1,6 @@
-ID ,SKU,Quantity,Status
-1,0b872b6b-7094-48b2-bb66-22f81eb777e3,1,onhold
-2,bb2fc5d4-80a5-4c03-b3b3-ade2ed99e85f,2,onhold
-3,0e0dc0d2-f13d-4b21-8119-27463d2a3715,1,onhol
+ID,TenantID,SellerID,HubID,SKU,Quantity,Status,CreatedAt,UpdatedAt
+1,tenant1,seller1,hub1,bb2fc5d4-80a5-4c03-b3b3-ade2ed99e85f,10,shipped,2025-02-07T00:00:00Z,2025-02-07T00:00:00Z
+2,tenant2,seller2,hub2,1f987e98-8a13-45ca-9710-e1f11c3cd318,5,pending,2025-02-07T00:00:00Z,2025-02-07T00:00:00Z
+3,tenant3,seller3,hub3,76d0d3ac-19e3-4cf2-bbdb-65815ae1c41c,20,canceled,2025-02-07T00:00:00Z,2025-02-07T00:00:00Z
+4,tenant4,seller4,hub4,186116b4-8980-41cf-bfc3-39fe77892b67,15,shipped,2025-02-07T00:00:00Z,2025-02-07T00:00:00Z
+5,tenant5,seller5,hub5,0e0dc0d2-f13d-4b21-8119-27463d2a3715,8,onhold,2025-02-07T00:00:00Z,2025-02-07T00:00:00Z

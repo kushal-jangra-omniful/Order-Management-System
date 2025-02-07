@@ -3,24 +3,31 @@ package csvparse
 import (
 	"context"
 	"fmt"
-	// "log"
-	// "oms/utils"
+	"log"
+	// "net/http"
+	"oms/utils"
+
+	// "oms/consumer"
+	// "oms/producer"
 	"oms/models"
 	"time"
+	"oms/controllers"
 
 	"github.com/omniful/go_commons/csv"
 )
 
+
+
+
 // Csvinit reads a CSV file, parses it, and inserts orders into MongoDB.
-func Csvinit() error {
-	// Path to your local CSV file
-	localFilePath := "./controllers/csvfile.csv"
+func Csvinit(filepath string) error {
+	
 
 	// Initialize CommonCSV with options
 	commonCSV, err := csv.NewCommonCSV(
 		csv.WithBatchSize(1),
 		csv.WithSource(csv.Local),
-		csv.WithLocalFileInfo(localFilePath),
+		csv.WithLocalFileInfo(filepath),
 	)
 	if err != nil {
 		fmt.Printf("Error initializing CommonCSV: %v\n", err)
@@ -51,18 +58,31 @@ func Csvinit() error {
 
 	// Convert CSV records into Order structs
 	var orders []interface{} // Using interface{} for bulk insert
-	for _, record := range records {
+	for _, record := range records[1:] {
 		if len(record) < 4 { // Ensure there are enough fields
 			fmt.Printf("Skipping invalid record: %v\n", record)
 			continue
 		}
+		sku := record[4] // Assuming SKU is in the 4th column
+
+		// Verify SKU in WMS
+		exists, err := controllers.VerifySKU(sku)
+		if err != nil {
+			fmt.Printf("Error verifying SKU %s: %v\n", sku, err)
+			continue
+		}
+		if !exists {
+			fmt.Printf("SKU do not exist")
+			continue
+		}
+        
 
 		order := models.Order{
-			// TenantID:  record[0],
-			// SellerID:  record[1],
-			// HubID:     record[2],
 			ID:        record[0],
-			SKU:       record[1],
+			TenantID:  record[1],
+			SellerID:  record[2],
+			HubID:     record[3],
+			SKU:       record[4],
 			Quantity:  1,         // Default quantity (modify if needed)
 			Status:    "on_hold", // Default status
 			CreatedAt: time.Now(),
@@ -75,17 +95,17 @@ func Csvinit() error {
 
 	// Insert orders into MongoDB
 
-	// orderCollection := utils.GetCollection("orders")
-	// if orderCollection == nil {
-	// 	log.Fatal("MongoDB collection retrieval failed! Check MongoDB connection.")
-	// }
-	
-	// _, err = orderCollection.InsertMany(context.Background(), orders)
-	// if err != nil {
-	// 	log.Printf("Error inserting orders into MongoDB: %v\n", err)
-	// 	return err
-	// }
+	orderCollection := utils.GetCollection("orders")
+	if orderCollection == nil {
+		log.Fatal("MongoDB collection retrieval failed! Check MongoDB connection.")
+	}
 
-	// fmt.Println("Orders successfully inserted into MongoDB.")
+	_, err = orderCollection.InsertMany(context.Background(), orders)
+	if err != nil {
+		log.Printf("Error inserting orders into MongoDB: %v\n", err)
+		return err
+	}
+
+	fmt.Println("Orders successfully inserted into MongoDB.")
 	return nil
 }
