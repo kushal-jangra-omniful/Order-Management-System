@@ -61,6 +61,23 @@ func InitInterSrvClient() {
 	// GetReq(context.Background(), &data, "/hub/view")
 }
 
+func PostReq(ctx context.Context, userData interface{}, Url string, body interface{}) (interface{}, *interservice_client.Error) {
+	request := &http.Request{
+		Url:  Url,
+		Body: body,
+	}
+
+	_, err := Client.Post(request, &userData)
+	if err != nil {
+		return nil, err
+	}
+
+	jsonData, _ := json.Marshal(userData)
+	fmt.Println(string(jsonData))
+
+	return &userData, nil
+}
+
 
 func VerifySKU(ctx context.Context, sku string) (bool, error) {
 	url := fmt.Sprintf("http://localhost:8082/skus/%s", sku)

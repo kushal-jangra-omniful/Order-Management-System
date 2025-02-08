@@ -9,7 +9,7 @@ import (
 	"oms/routes"
 	"time"
 
-	
+	"oms/kafka"
 	// "oms/controllers"
 	"oms/utils"
 
@@ -38,7 +38,9 @@ func main() {
 	interservice.InitInterSrvClient()
 	// consumer sqs
 	go consumer.StartConsumer()
-
+    
+    kafka.InitializeKafkaProducer()
+	go kafka.StartConsumerk()
 	// initialize redis client
 	utils.InitRedis()
 
