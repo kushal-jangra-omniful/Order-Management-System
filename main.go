@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	// "oms/controllers"
-	"oms/consumer"
-     
+	
+	"oms/sconsumer"
+	"oms/interservice"
+
 	"oms/routes"
 	"time"
 
-	// "github.com/omniful/go_commons/csv"
-	// "fmt"
-	// "context"
+	
+	// "oms/controllers"
 	"oms/utils"
 
 	"github.com/omniful/go_commons/http"
@@ -32,12 +32,20 @@ func main() {
 		fmt.Println("Error in connecting to mongo")
 		return
 	}
-	utils.Init()
-	// producer.PublishOrderMessage()
+    // initialize sqs 
+	utils.Initsqs()
+    // iniatialize interservice
+	interservice.InitInterSrvClient()
+	// consumer sqs
 	go consumer.StartConsumer()
+
+	// initialize redis client
 	utils.InitRedis()
-	// controllers.Csvinit()
+
+	// routes
+	
 	routes.RegisterRoutes(server)
+
 	
 
 	// Start the server

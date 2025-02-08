@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.37.14
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
-	github.com/omniful/go_commons v0.4.67
+	github.com/omniful/go_commons v0.4.69
 	go.mongodb.org/mongo-driver v1.17.2
 )
 

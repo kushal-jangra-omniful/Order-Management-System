@@ -6,6 +6,7 @@ import (
 	"oms/producer"
 	// "oms/consumer"
 	// "oms/csvparse"
+	// "oms/kafkaconsumer"
 
 
 	"github.com/gin-gonic/gin"
@@ -16,8 +17,9 @@ func BulkOrder(c *gin.Context) {
 	fmt.Println("Starting bulk order processing...")
 
 	// Call the Csvinit function
+	// go consumerk.StartConsumerk()
 	
-	orderPath := "./controllers/csvfile.csv"
+	orderPath := "D:\\vsc\\project2\\OMS\\controllers\\csvfile.csv"
     fmt.Println("msg is calling",producer.PublishOrderMessage(orderPath))
    
 	

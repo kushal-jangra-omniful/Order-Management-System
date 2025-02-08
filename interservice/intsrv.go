@@ -1,4 +1,4 @@
-package controllers
+package interservice
 
 import (
 	"context"

@@ -3,26 +3,26 @@ package csvparse
 import (
 	"context"
 	"fmt"
-	"log"
+	// "log"
 	// "net/http"
-	"oms/utils"
+	// "oms/utils"
 
 	// "oms/consumer"
 	// "oms/producer"
+	"oms/repo"
 	"oms/models"
 	"time"
-	"oms/controllers"
+	"oms/interservice"
 
 	"github.com/omniful/go_commons/csv"
 )
 
 
 
-
 // Csvinit reads a CSV file, parses it, and inserts orders into MongoDB.
 func Csvinit(filepath string) error {
 	
-
+	ctx := context.Background()
 	// Initialize CommonCSV with options
 	commonCSV, err := csv.NewCommonCSV(
 		csv.WithBatchSize(1),
@@ -66,7 +66,7 @@ func Csvinit(filepath string) error {
 		sku := record[4] // Assuming SKU is in the 4th column
 
 		// Verify SKU in WMS
-		exists, err := controllers.VerifySKU(sku)
+		exists, err := interservice.VerifySKU(ctx,sku)
 		if err != nil {
 			fmt.Printf("Error verifying SKU %s: %v\n", sku, err)
 			continue
@@ -88,24 +88,16 @@ func Csvinit(filepath string) error {
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		}
+		// producer.PublishVerifiedOrder(order)
+        
 		orders = append(orders, order)
 	}
 
 	fmt.Println("Parsed Orders:", orders)
-
+  
 	// Insert orders into MongoDB
-
-	orderCollection := utils.GetCollection("orders")
-	if orderCollection == nil {
-		log.Fatal("MongoDB collection retrieval failed! Check MongoDB connection.")
-	}
-
-	_, err = orderCollection.InsertMany(context.Background(), orders)
-	if err != nil {
-		log.Printf("Error inserting orders into MongoDB: %v\n", err)
-		return err
-	}
-
-	fmt.Println("Orders successfully inserted into MongoDB.")
+	repo.InsertOrdersIntoMongo(orders)
+	
+	// fmt.Println("Orders successfully inserted into MongoDB.")
 	return nil
 }

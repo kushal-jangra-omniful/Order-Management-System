@@ -178,6 +178,8 @@ github.com/omniful/go_commons v0.4.66 h1:0Xl4ay5duRDqw6DlgSc8IZ9ZOtqdtrWeN/amP64
 github.com/omniful/go_commons v0.4.66/go.mod h1:GXPoNHP1RtBV6mWmbD+vu0jqXDLAhDKNEsyMHzEGwJo=
 github.com/omniful/go_commons v0.4.67 h1:cv2470pzUrg3fTn3IhdCN2igDdHfDF4vD/4ONHYes0s=
 github.com/omniful/go_commons v0.4.67/go.mod h1:GXPoNHP1RtBV6mWmbD+vu0jqXDLAhDKNEsyMHzEGwJo=
+github.com/omniful/go_commons v0.4.69 h1:poqQdEprg3MSRM8ku+ZlS6gggFCz24ZpZIVImsYKB3M=
+github.com/omniful/go_commons v0.4.69/go.mod h1:Za5oYqCkdQODkgbwdNizKWeG/29SMGO1FF5h7fwV890=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.12.1/go.mod h1:zj2OWP4+oCPe1qIXoGWkgMRwljMUYCdkwsT2108oapk=
 github.com/onsi/ginkgo v1.14.2/go.mod h1:iSB4RoI2tjJc9BBv4NKIKWKya62Rps+oPG/Lv9klQyY=
